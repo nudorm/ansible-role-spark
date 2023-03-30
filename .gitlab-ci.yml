@@ -1,0 +1,20 @@
+---
+image: registry.nudorm.net/docker/molecule:python
+
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
+  DOCKER_HOST: tcp://docker:2375
+
+services:
+  - docker:dind
+
+docker-build:
+  stage: build
+  tags:
+    - docker
+    - container
+
+  script:
+    - pipenv install -r requirements.txt
+    - pipenv run molecule test
